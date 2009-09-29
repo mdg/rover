@@ -113,14 +113,7 @@ class Rover:
         # makes error handling much cleaner
 
         files = []
-        # Use the ROVER_PATH variable first!
-        if 'ROVER_PATH' in os.environ.keys():
-            files.append( os.path.join(os.environ['ROVER_PATH'], config_name) )
-        # Look in the current directory
-        # FIXME: Do we necessarily WANT this, though?  Shouldn't we enforce
-        #        that config files should be in a single place?
-        files.append(config_name)
-        # Look in the specified config directory, usually ./config/
+        # Look in the specified config directory
         files.append(os.path.join(config.config_dir, config_name))
 
         # Find a working filename
