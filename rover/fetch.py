@@ -92,7 +92,8 @@ def main():
         sys.exit(-1)
 
     try:
-        r = Rover(config_names=args, checkout_mode=opts.checkout_mode, checkout_dir=opts.checkout_dir)
+        r = Rover(config_names=args, checkout_mode=opts.checkout_mode
+                , checkout_dir=opts.checkout_dir)
         r.set_verbose(opts.verbose)
         r.set_test_mode(opts.test_mode)
         r.set_manifest(opts.manifest_filename)
