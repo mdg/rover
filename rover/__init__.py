@@ -46,6 +46,7 @@ class Rover:
     }
     
     def __init__(self, config_names, checkout_mode='preserve', checkout_dir=os.getcwd()):
+        self.config_dir = config.DEFAULT_DIR
         self.config_names = config_names
         if type(self.config_names) in types.StringTypes:
             self.config_names = [self.config_names]

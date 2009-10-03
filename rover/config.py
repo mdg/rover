@@ -27,8 +27,9 @@
 import os
 
 config_dir = os.path.abspath('.rover')
-
+DEFAULT_DIR = os.path.abspath('./.rover')
 REPO_FILE_NAME = "REPOS"
+
 
 class RepoInfo(object):
     """Structured data for a configured repo."""
