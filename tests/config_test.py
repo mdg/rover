@@ -35,6 +35,7 @@ class RepoInfoTest(unittest.TestCase):
 
 
 BASIC_REPOS_TEST_CASE = """
+  # comment line
 github, git, git://github.com/
 tigris, svn, svn://tigris.com/
 sourceforge, cvs, :pserver:cvs.sourceforge.net:2401/cvsroot/
