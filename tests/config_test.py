@@ -32,6 +32,12 @@ class RepoInfoTest(unittest.TestCase):
         self.assertEqual("git", repo.vcs)
         self.assertEqual("git://github.com/", repo.uri)
 
+class ConfigInfoTest(unittest.TestCase):
+    def test_git_config_line(self):
+        conf = rover.config.ConfigInfo("rover.git, master, git")
+        self.assertEqual("rover.git", conf.path)
+        self.assertEqual("master", conf.branch)
+        self.assertEqual("git", conf.repo)
 
 
 BASIC_REPOS_TEST_CASE = """
