@@ -26,7 +26,6 @@
 
 import os
 
-config_dir = os.path.abspath('.rover')
 DEFAULT_DIR = os.path.abspath('./.rover')
 REPO_FILE_NAME = "REPOS"
 
@@ -57,7 +56,6 @@ def parse_repos(repofile):
         line = line.strip()
         if len(line) == 0 or line[0] == '#':
             # blank or commented line, skip it
-            print "blank line"
             continue
         r = RepoInfo(line)
         repos[r.name] = r
