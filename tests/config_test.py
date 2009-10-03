@@ -32,6 +32,15 @@ class RepoInfoTest(unittest.TestCase):
         self.assertEqual("git", repo.vcs)
         self.assertEqual("git://github.com/", repo.uri)
 
+    def test_repo_info_comment_stripping(self):
+        try:
+            repo = rover.config.RepoInfo("  # comment line")
+        except Exception, x:
+            self.assertEqual('Cannot initialize RepoInfo for commented line' \
+                    , str(x))
+        else:
+            self.fail("should have thrown an exception")
+
 class ConfigInfoTest(unittest.TestCase):
     def test_git_config_line(self):
         conf = rover.config.ConfigInfo("rover.git, master, git")
