@@ -46,6 +46,7 @@ class Rover:
     }
     
     def __init__(self, config_names, checkout_mode='preserve', checkout_dir=os.getcwd()):
+        self.config_dir = config.DEFAULT_DIR
         self.config_names = config_names
         if type(self.config_names) in types.StringTypes:
             self.config_names = [self.config_names]
@@ -60,6 +61,7 @@ class Rover:
         self.excludes = []
         self.revision = None
 
+        self.repos = {}
         self.config_lines = []
         self.config_items = []
         self.config_files = []
@@ -93,7 +95,12 @@ class Rover:
         """
         if self.checkout_mode not in ['paranoid', 'clean', 'preserve']:
             raise Exception("mode must be one of {'paranoid', 'clean', 'preserve'}")
-        
+
+    def get_repos(self):
+        repofile = config.open_repofile(self.config_dir)
+        self.repos = config.parse_repos(repofile)
+        repofile.close()
+
     def process_config(self, config_name):
         revision = None
         if '@' in config_name:
@@ -372,6 +379,8 @@ class Rover:
     def run(self):
         """
         """
+        self.get_repos()
+
         # open and parse each config file into a list of tuples
         for config_name in self.config_names:
             self.process_config(config_name)

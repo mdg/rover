@@ -26,38 +26,72 @@
 
 import os
 
-config_dir = os.path.abspath('.rover')
-
+DEFAULT_DIR = os.path.abspath('./.rover')
 REPO_FILE_NAME = "REPOS"
+CONFIG_FILE_EXT = ".csv"
+
 
 class RepoInfo(object):
     """Structured data for a configured repo."""
     def __init__(self, repoline):
         print "repoline = '%s'" % repoline
-        repoline.strip()
-        if len(repoline) == 0 or repoline[0] == '#':
-            # blank or commented line, skip it
-            return
+        repoline = repoline.strip()
+        if len(repoline) == 0:
+            # blank line, fail
+            raise Exception("Cannot initialize RepoInfo for blank line")
+        elif repoline[0] == '#':
+            # commented line, fail
+            raise Exception("Cannot initialize RepoInfo for commented line")
         parts = repoline.split(',')
 
         self.name = parts[0].strip()
         self.vcs = parts[1].strip()
         self.uri = parts[2].strip()
 
+class ConfigInfo(object):
+    """Structured data for a line of rover config"""
+    def __init__(self, configline):
+        print "configline = '%s'" % configline
+        configline = configline.strip()
+        if len(configline) == 0 or configline[0] == '#':
+            # blank or commented line
+            # should throw an error
+            return
+        parts = configline.split(',')
+        self.path = parts[0].strip()
+        self.branch = parts[1].strip()
+        self.repo = parts[2].strip()
+
 
 def open_repofile(path):
     filename = os.path.join(path, REPO_FILE_NAME)
     return open(filename)
 
+def open_configfile(path, config):
+    filename = os.path.join(path, config, CONFIG_FILE_EXT)
+    return open(filename)
+
+
 def parse_repos(repofile):
     """Get repos from an open file."""
-    repos = []
+    repos = {}
     for line in repofile:
         line = line.strip()
         if len(line) == 0 or line[0] == '#':
             # blank or commented line, skip it
-            print "blank line"
             continue
-        repos.append(RepoInfo(line))
+        r = RepoInfo(line)
+        repos[r.name] = r
     return repos
+
+def parse_config(configfile, repos):
+    configs = list()
+    for line in configfile:
+        line = line.strip()
+        if len(line) == 0 or line[0] == '#':
+            # blank or commented line, skip it
+            continue
+        c = ConfigInfo(line)
+        configs.append(c)
+    return configs
 

@@ -29,6 +29,8 @@ import sys
 from optparse import OptionParser
 
 from rover import Rover
+import config
+
 
 def main():
     parser = OptionParser("""usage: %prog [options] config[@revision] [config[@revision]] ...
@@ -57,6 +59,12 @@ def main():
                       dest='checkout_mode',
                       default='preserve',
                       help="Must be one of {'paranoid', 'clean', 'preserve'}.  Paranoid wipes out the entire source directory before doing a fresh checkout, clean performs an update but reverts all modified files to the repository version, and preserve performs an update while attempting to preserve local modifications.  Preserve is the default.")
+    # config dir
+    parser.add_option('-c','--config-dir',
+                      action='store',
+                      dest='config_dir',
+                      default=config.DEFAULT_DIR,
+                      help='Directory from which to load configs')
     parser.add_option('-d','--checkout-dir',
                       action='store',
                       dest='checkout_dir',
@@ -84,7 +92,8 @@ def main():
         sys.exit(-1)
 
     try:
-        r = Rover(config_names=args, checkout_mode=opts.checkout_mode, checkout_dir=opts.checkout_dir)
+        r = Rover(config_names=args, checkout_mode=opts.checkout_mode
+                , checkout_dir=opts.checkout_dir)
         r.set_verbose(opts.verbose)
         r.set_test_mode(opts.test_mode)
         r.set_manifest(opts.manifest_filename)

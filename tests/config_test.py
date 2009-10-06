@@ -32,9 +32,25 @@ class RepoInfoTest(unittest.TestCase):
         self.assertEqual("git", repo.vcs)
         self.assertEqual("git://github.com/", repo.uri)
 
+    def test_repo_info_comment_stripping(self):
+        try:
+            repo = rover.config.RepoInfo("  # comment line")
+        except Exception, x:
+            self.assertEqual('Cannot initialize RepoInfo for commented line' \
+                    , str(x))
+        else:
+            self.fail("should have thrown an exception")
+
+class ConfigInfoTest(unittest.TestCase):
+    def test_git_config_line(self):
+        conf = rover.config.ConfigInfo("rover.git, master, git")
+        self.assertEqual("rover.git", conf.path)
+        self.assertEqual("master", conf.branch)
+        self.assertEqual("git", conf.repo)
 
 
 BASIC_REPOS_TEST_CASE = """
+  # comment line
 github, git, git://github.com/
 tigris, svn, svn://tigris.com/
 sourceforge, cvs, :pserver:cvs.sourceforge.net:2401/cvsroot/
