@@ -24,6 +24,8 @@
 import unittest
 import rover.config
 
+from StringIO import StringIO
+
 
 class RepoInfoTest(unittest.TestCase):
     def test_github_repo_info(self):
@@ -58,7 +60,7 @@ sourceforge, cvs, :pserver:cvs.sourceforge.net:2401/cvsroot/
 
 class ParseRepoTest(unittest.TestCase):
     def test_basic_parse_repos(self):
-        repos = rover.config.parse_repos(BASIC_REPOS_TEST_CASE.splitlines())
+        repos = rover.config.parse_repos(StringIO(BASIC_REPOS_TEST_CASE))
 
         self.assertEqual(3, len(repos))
 
