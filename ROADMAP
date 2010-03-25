@@ -1,0 +1,14 @@
+0.3.2
+  - Second, optional command line argument is checkout dir
+
+0.4.0
+  - Remove old git syntax (backends/rgit.py)
+  - Add first argument w/ command, fetch is first supported command
+  - Add "manifest" command to write out whatever is checked out now
+    in a way that can then be restored from the manifest
+  - Add "restore" command that restores from a manifest
+
+Future
+  - Feature to report who has made changes since the previous
+    checkout or manifest
+

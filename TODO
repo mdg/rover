@@ -7,8 +7,6 @@
 
   Configuration Changes/Improvements
 ================================================================================
-- Feature to write a file that will recreate a given checkout state
-
 - The CVS backend does not allow projects to checkout from more than one CVS
     repository, which stands at odds with the general idea of rover.  Similarly
     to SVN, it seems like it would be possible to add a CVSROOT field to the
@@ -18,7 +16,7 @@
     identified at a later time.  Storing passwords in the config is not a great
     idea.
 
-- Feature to track if changes have been made since the previous checkout
+    Converting svn & cvs to use the REPOS file should achieve this
 
 - Give examples of checking out from multiple branches within the same module.
 
