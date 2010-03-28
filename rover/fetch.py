@@ -60,11 +60,6 @@ def main():
                       dest='checkout_mode',
                       default='preserve',
                       help="Must be one of {'paranoid', 'clean', 'preserve'}.  Paranoid wipes out the entire source directory before doing a fresh checkout, clean performs an update but reverts all modified files to the repository version, and preserve performs an update while attempting to preserve local modifications.  Preserve is the default.")
-    parser.add_option('-d','--checkout-dir',
-                      action='store',
-                      dest='checkout_dir',
-                      default=None,
-                      help='Root dir, relative to working dir, that Rover will check out to.  Defaults to current directory.')
     parser.add_option('-f','--manifest',
                       action='store',
                       dest='manifest_filename',
@@ -82,16 +77,24 @@ def main():
                       help='Files or directories to check out. Specify full path, eg, `src/test.java`. May specify multiple paths. If specified, only files or directories matched will be checked out.')
     opts, args = parser.parse_args()
 
-    if len(args) < 1:
+    checkout_dir = None
+    num_args = len(args)
+    if num_args < 1:
         parser.print_help()
         sys.exit(-1)
-    elif len(args) > 1:
+    elif num_args > 2:
         print "Multiple config names no longer supported as of version 0.3"
         parser.print_help()
         sys.exit(-1)
+    elif num_args == 1:
+        config_name = args[0]
+    elif num_args == 2:
+        config_name = args[0]
+        checkout_dir = args[1]
 
     try:
-        r = Rover(config_names=args, checkout_mode=opts.checkout_mode, checkout_dir=opts.checkout_dir)
+        r = Rover(config_names=[config_name], checkout_mode=opts.checkout_mode
+                        , checkout_dir=checkout_dir)
         r.set_verbose(opts.verbose)
         r.set_test_mode(opts.test_mode)
         r.set_manifest(opts.manifest_filename)
