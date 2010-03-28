@@ -1,7 +1,7 @@
 0.3.2 (master)
-  - Second, optional command line argument is checkout dir
 
 0.4.0 (next)
+  - Second, optional command line argument is checkout dir
   - Remove old git syntax (backends/rgit.py)
   - Add first argument w/ command, fetch is first supported command
   - Add "manifest" command to write out whatever is checked out now
