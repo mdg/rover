@@ -29,6 +29,7 @@ import sys
 from optparse import OptionParser
 
 from rover import Rover
+import rover.config
 
 def main():
     usage = \
@@ -96,9 +97,16 @@ def main():
         config_name = args[0]
         checkout_dir = args[1]
 
+    config_name = args[0]
+    config_filename = rover.config.find_config(config_name)
+    if not config_filename:
+        print "Could not find config file for '%s'" % config_name
+        sys.exit(-2)
+
     try:
-        r = Rover(config_names=[config_name], checkout_mode=opts.checkout_mode
-                        , checkout_dir=checkout_dir)
+        r = Rover(config_names=[config_name]
+                , checkout_mode=opts.checkout_mode
+                , checkout_dir=opts.checkout_dir)
         r.set_verbose(opts.verbose)
         r.set_test_mode(opts.test_mode)
         r.set_manifest(opts.manifest_filename)
